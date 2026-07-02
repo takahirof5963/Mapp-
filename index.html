@@ -4,16 +4,35 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="theme-color" content="#0E0F12">
-<title>IRONLOG — 筋トレ記録</title>
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="BULK NOTE">
+<meta name="theme-color" content="#0E0F12" id="themeColor">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icon-180.png">
+<link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
+<title>BULK NOTE — 筋トレ記録</title>
 <style>
-  :root{
+  :root, html[data-theme="normal"]{
     --bg:#0E0F12; --surface:#16181D; --surface2:#1E2128; --surface3:#272B34;
     --border:#2A2E37; --text:#E8EAED; --muted:#878D9C; --muted2:#5B6171;
     --accent:#C6F24E; --accent-d:#9FCB2E; --blue:#54A8F0; --orange:#F2A33D;
-    --red:#F2685C; --green:#5BD68C;
+    --red:#F2685C; --green:#5BD68C; --onacc:#12150a; --navbg:rgba(18,20,25,.92);
     --r:14px; --r2:10px;
     --shadow:0 6px 24px rgba(0,0,0,.35);
+  }
+  html[data-theme="dark"]{
+    --bg:#000000; --surface:#0B0C0F; --surface2:#15171C; --surface3:#1F232B;
+    --border:#23262E; --text:#ECEEF1; --muted:#7E8492; --muted2:#54596690;
+    --accent:#C6F24E; --accent-d:#9FCB2E; --blue:#54A8F0; --orange:#F2A33D;
+    --red:#F2685C; --green:#5BD68C; --onacc:#000; --navbg:rgba(6,7,9,.94);
+    --shadow:0 6px 24px rgba(0,0,0,.6);
+  }
+  html[data-theme="light"]{
+    --bg:#EDF0F4; --surface:#FFFFFF; --surface2:#F1F4F8; --surface3:#E4E8EF;
+    --border:#DCE1E9; --text:#1B1E24; --muted:#69707E; --muted2:#A4ABB8;
+    --accent:#3E8A00; --accent-d:#316E00; --blue:#1E78D8; --orange:#C9760D;
+    --red:#D8453A; --green:#2E9E5C; --onacc:#FFFFFF; --navbg:rgba(255,255,255,.92);
+    --shadow:0 6px 20px rgba(40,50,70,.12);
   }
   *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
   html,body{margin:0;padding:0;background:var(--bg);color:var(--text);
@@ -36,7 +55,7 @@
   .pagetitle{font-size:27px;margin-top:8px;line-height:1.1;}
 
   /* Tabs */
-  nav{position:fixed;bottom:0;left:0;right:0;z-index:40;background:rgba(18,20,25,.92);
+  nav{position:fixed;bottom:0;left:0;right:0;z-index:40;background:var(--navbg);
     backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
     border-top:1px solid var(--border);display:flex;max-width:560px;margin:0 auto;
     padding:6px 4px calc(6px + env(safe-area-inset-bottom));}
@@ -71,7 +90,7 @@
   .pill.blue{background:rgba(84,168,240,.14);color:var(--blue);}
   .pill.orange{background:rgba(242,163,61,.15);color:var(--orange);}
   .badge{min-width:22px;height:22px;padding:0 6px;border-radius:999px;background:var(--accent);
-    color:#11140a;font-weight:800;font-size:12px;display:inline-flex;align-items:center;
+    color:var(--onacc);font-weight:800;font-size:12px;display:inline-flex;align-items:center;
     justify-content:center;}
   .dot{width:8px;height:8px;border-radius:50%;display:inline-block;}
 
@@ -82,14 +101,14 @@
     transition:transform .08s,background .15s;}
   .btn:active{transform:scale(.96);}
   .btn.full{width:100%;}
-  .btn.acc{background:var(--accent);color:#12150a;border-color:var(--accent);}
+  .btn.acc{background:var(--accent);color:var(--onacc);border-color:var(--accent);}
   .btn.ghost{background:transparent;}
   .btn.sm{padding:7px 11px;font-size:13px;}
   .btn.danger{color:var(--red);border-color:rgba(242,104,92,.35);}
   .fab{position:fixed;right:18px;bottom:calc(80px + env(safe-area-inset-bottom));z-index:35;
-    width:56px;height:56px;border-radius:18px;background:var(--accent);color:#12150a;
+    width:56px;height:56px;border-radius:18px;background:var(--accent);color:var(--onacc);
     box-shadow:0 8px 24px rgba(198,242,78,.3);display:flex;align-items:center;justify-content:center;}
-  .fab svg{width:26px;height:26px;stroke:#12150a;stroke-width:2.6;fill:none;stroke-linecap:round;}
+  .fab svg{width:26px;height:26px;stroke:var(--onacc);stroke-width:2.6;fill:none;stroke-linecap:round;}
 
   /* Forms */
   label.f{display:block;font-size:12px;font-weight:700;color:var(--muted);margin:0 0 5px 2px;}
@@ -100,7 +119,7 @@
   .seg{display:flex;background:var(--surface2);border:1px solid var(--border);border-radius:var(--r2);
     padding:3px;gap:3px;margin-bottom:12px;}
   .seg button{flex:1;padding:9px 4px;border-radius:8px;font-size:12.5px;font-weight:700;color:var(--muted);}
-  .seg button.on{background:var(--accent);color:#12150a;}
+  .seg button.on{background:var(--accent);color:var(--onacc);}
   .chips{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:12px;}
   .chip{padding:8px 12px;border-radius:999px;border:1px solid var(--border);background:var(--surface2);
     font-size:13px;font-weight:700;color:var(--muted);}
@@ -143,7 +162,12 @@
     transform:translateY(100%);transition:transform .28s cubic-bezier(.2,.9,.25,1);
     max-height:92vh;overflow-y:auto;-webkit-overflow-scrolling:touch;}
   .sheet.on{transform:translateY(0);}
-  .grab{width:40px;height:4px;border-radius:99px;background:var(--surface3);margin:6px auto 14px;}
+  .sheettop{position:sticky;top:0;background:var(--surface);padding-top:4px;z-index:2;}
+  .grab{width:40px;height:4px;border-radius:99px;background:var(--surface3);margin:6px auto 8px;}
+  .sheetx{position:absolute;top:8px;right:10px;width:34px;height:34px;border-radius:50%;
+    background:var(--surface2);color:var(--muted);font-size:20px;font-weight:700;
+    display:flex;align-items:center;justify-content:center;line-height:1;}
+  .sheetx:active{transform:scale(.92);}
   .sheet h2{font-size:20px;margin-bottom:14px;}
 
   /* set rows in record sheet */
@@ -182,13 +206,33 @@
   .link{color:var(--accent);font-weight:700;}
   .warn{font-size:12px;color:var(--orange);background:rgba(242,163,61,.1);
     border:1px solid rgba(242,163,61,.25);padding:9px 11px;border-radius:10px;margin-bottom:12px;}
+  /* settings: keep text legible (not faint) */
+  #v-settings .sec-label{color:var(--text);font-size:13px;text-transform:none;letter-spacing:0;font-weight:800;}
+  #v-settings label.f{color:var(--text);font-size:13px;font-weight:700;}
+  #v-settings .xs.muted, #v-settings .small.muted{color:var(--text);}
+
+  /* calendar */
+  .cal{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;}
+  .cal .dowh{text-align:center;font-size:10px;color:var(--muted);font-weight:800;padding:4px 0;}
+  .cal .day{aspect-ratio:1;border-radius:10px;background:var(--surface2);display:flex;
+    flex-direction:column;align-items:center;justify-content:center;font-size:13px;font-weight:700;
+    transition:transform .08s;}
+  .cal .day:active{transform:scale(.92);}
+  .cal .day.blank{background:transparent;pointer-events:none;}
+  .cal .day.today{outline:1.5px solid var(--accent);outline-offset:-1.5px;}
+  .cal .day.has{background:rgba(198,242,78,.13);}
+  .cal .day .dots{display:flex;gap:2.5px;margin-top:3px;height:4px;}
+  .cal .day .dots i{width:4px;height:4px;border-radius:50%;background:var(--accent);display:block;}
+  .cal .day .dots i.b{background:var(--blue);}
+  .pr{display:inline-flex;align-items:center;gap:3px;font-size:10px;font-weight:800;
+    padding:2px 7px;border-radius:999px;background:linear-gradient(135deg,#F2C94C,#E8A33D);color:#3a2600;}
 </style>
 </head>
 <body>
 
 <header>
   <div class="brand">
-    <div class="logo">IRON<b>LOG</b></div>
+    <div class="logo">BULK<b>NOTE</b></div>
     <div class="date tnum" id="todayDate"></div>
   </div>
   <h1 class="pagetitle" id="pageTitle">今日</h1>
@@ -250,7 +294,11 @@
 
 <!-- scrim + sheet -->
 <div class="scrim" id="scrim" onclick="app.closeSheet()"></div>
-<div class="sheet" id="sheet"><div class="grab"></div><div id="sheetBody"></div></div>
+<div class="sheet" id="sheet">
+  <div class="sheettop"><div class="grab" onclick="app.closeSheet()"></div>
+  <button class="sheetx" onclick="app.closeSheet()" aria-label="閉じる">×</button></div>
+  <div id="sheetBody"></div>
+</div>
 
 <div class="toast" id="toast"></div>
 
@@ -287,7 +335,11 @@ let S = {
   logs: load("il_logs", []),
   body: load("il_body", []),
   routines: load("il_routines", []),
-  settings: load("il_set", {unit:"kg", height:170, rest:90, sortBy:"priority"}),
+  settings: load("il_set", {unit:"kg", height:170, rest:90, sortBy:"priority",
+    theme:"normal", sex:"male", age:30, activity:1.55, goal:"bulk",
+    volTarget:{胸:12,背中:14,肩:12,腕:8,脚:14,腹:10,全身:10,その他:8},
+    warmup:{bar:20, barReps:10, steps:[{p:40,r:8},{p:60,r:5},{p:80,r:3},{p:90,r:1}]},
+    presets:[60,90,120,180]}),
 };
 // seed sample data on first run
 if(S.exercises===null){
@@ -303,6 +355,22 @@ if(S.exercises===null){
 function persist(){ save("il_ex",S.exercises); save("il_logs",S.logs); save("il_body",S.body);
   save("il_routines",S.routines); save("il_set",S.settings); }
 
+// migrate older settings that may miss newer keys
+(function migrate(){
+  const s=S.settings;
+  if(!s.volTarget) s.volTarget={胸:12,背中:14,肩:12,腕:8,脚:14,腹:10,全身:10,その他:8};
+  if(!s.warmup) s.warmup={bar:20,barReps:10,steps:[{p:40,r:8},{p:60,r:5},{p:80,r:3},{p:90,r:1}]};
+  if(!s.presets) s.presets=[60,90,120,180];
+  if(!S.routines || !S.routines.length){
+    S.routines=[
+      {id:uid(),name:"PPL（押す/引く/脚）",desc:"週6分割",blocks:["Push 胸肩腕","Pull 背中腕","Legs 脚"]},
+      {id:uid(),name:"上半身 / 下半身",desc:"週4。交互に",blocks:["Upper 上半身","Lower 下半身"]},
+      {id:uid(),name:"全身（週3）",desc:"初心者向け",blocks:["Full A","Full B"]},
+    ];
+  }
+  save("il_set",s); save("il_routines",S.routines);
+})();
+
 // ---------- date helpers ----------
 function todayStr(){ const d=new Date(); return d.toISOString().slice(0,10); }
 function fmtDate(s){ const d=new Date(s+"T00:00"); return (d.getMonth()+1)+"/"+d.getDate(); }
@@ -316,6 +384,23 @@ function exLogs(exId){ return S.logs.filter(l=>l.exerciseId===exId).sort((a,b)=>
 function lastLog(exId){ return exLogs(exId)[0]||null; }
 function logVolume(log){ return log.sets.reduce((s,x)=>s+(+x.weight||0)*(+x.reps||0),0); }
 function logTopSet(log){ let best=null; log.sets.forEach(x=>{ const e=est1RM(+x.weight,+x.reps); if(!best||e>best.e) best={w:+x.weight,r:+x.reps,e}; }); return best; }
+// ---------- PR helpers ----------
+function exPRInfo(exId){ // best est1RM ever + date, and best raw weight
+  let best=0,date=null,maxW=0;
+  exLogs(exId).forEach(l=>{ const t=logTopSet(l);
+    if(t&&t.e>best){best=t.e;date=l.date;}
+    l.sets.forEach(s=>{ if(+s.weight>maxW) maxW=+s.weight; }); });
+  return best?{e:best,date,maxW}:null;
+}
+function exTotals(exId){ const logs=exLogs(exId);
+  return {vol:logs.reduce((s,l)=>s+logVolume(l),0), count:logs.length,
+    sets:logs.reduce((s,l)=>s+l.sets.length,0)}; }
+function prIndices(logsOldestFirst){ // indices where est1RM exceeds all previous
+  let best=-1; const out=[];
+  logsOldestFirst.forEach((l,i)=>{ const t=logTopSet(l); const e=t?t.e:0;
+    if(e>best){ if(i>0||logsOldestFirst.length===1) out.push(i); best=e; } });
+  return out;
+}
 function bmi(w){ const h=S.settings.height/100; return h? +(w/(h*h)).toFixed(1):0; }
 
 // ---------- progressive overload suggestion ----------
@@ -347,7 +432,41 @@ function weeklyVolume(){
   });
   return out;
 }
-const VOL_TARGET={胸:12,背中:14,肩:12,腕:8,脚:14,腹:10,全身:10,その他:8};
+function volTarget(part){ return (S.settings.volTarget && S.settings.volTarget[part]) || 10; }
+
+// ---------- PR (personal records) ----------
+function exBest(exId, excludeLogId){
+  let best=0,bestDate=null,bestW=0,bestWDate=null,totalVol=0,sessions=0;
+  S.logs.forEach(l=>{
+    if(l.exerciseId!==exId) return;
+    if(excludeLogId && l.id===excludeLogId) return;
+    sessions++; totalVol+=logVolume(l);
+    const t=logTopSet(l); if(t&&t.e>best){best=t.e;bestDate=l.date;}
+    l.sets.forEach(s=>{ if(+s.weight>bestW){bestW=+s.weight;bestWDate=l.date;} });
+  });
+  return {best,bestDate,bestW,bestWDate,totalVol,sessions};
+}
+
+// ---------- nutrition (Mifflin-St Jeor) ----------
+function latestWeightKg(){
+  const b=S.body.slice().sort((a,b)=>a.date<b.date?1:-1)[0];
+  if(!b) return null;
+  return S.settings.unit==="lb" ? b.weight*0.453592 : b.weight;
+}
+function nutritionTargets(){
+  const w=latestWeightKg(); if(!w) return null;
+  const s=S.settings, h=s.height, age=s.age||30;
+  const bmr = 10*w + 6.25*h - 5*age + (s.sex==="female"? -161 : 5);
+  const tdee = bmr * (s.activity||1.55);
+  const adj = s.goal==="bulk"? 350 : s.goal==="cut"? -450 : 0;
+  const cal = Math.round((tdee+adj)/10)*10;
+  const proteinPerKg = s.goal==="cut"? 2.2 : 2.0;
+  const protein = Math.round(w*proteinPerKg);
+  const fat = Math.round(cal*0.25/9);
+  const carbs = Math.max(0, Math.round((cal - protein*4 - fat*9)/4));
+  return {cal, protein, fat, carbs, tdee:Math.round(tdee), wKg:Math.round(w*10)/10,
+    goalLabel:{bulk:"増量",maintain:"維持",cut:"減量"}[s.goal]};
+}
 
 // ============================================================
 //  APP / RENDER
@@ -357,9 +476,16 @@ const app = {
   el:(id)=>document.getElementById(id),
 
   init(){
+    this.applyTheme(S.settings.theme||"normal");
     const d=new Date();
     this.el("todayDate").textContent=`${d.getMonth()+1}/${d.getDate()} (${DOW[d.getDay()]})`;
     this.go("today");
+  },
+  applyTheme(t){
+    S.settings.theme=t; document.documentElement.setAttribute("data-theme",t);
+    const tc=document.getElementById("themeColor");
+    if(tc) tc.setAttribute("content", t==="light"?"#EDF0F4":t==="dark"?"#000000":"#0E0F12");
+    persist();
   },
 
   go(tab){
@@ -397,14 +523,19 @@ const app = {
       return db-da;
     };
     todays.sort(sortFn);
-    const doneToday=new Set(S.logs.filter(l=>l.date===todayStr()).map(l=>l.exerciseId));
+    const todayLogs=S.logs.filter(l=>l.date===todayStr());
+    const doneToday=new Set(todayLogs.map(l=>l.exerciseId));
+    const todayVol=todayLogs.reduce((s,l)=>s+logVolume(l),0);
+    const todayPR=todayLogs.some(l=>l.pr);
     const remaining=todays.filter(e=>!doneToday.has(e.id)).length;
 
     let h=`<div class="hero"><div class="glow"></div>
       <div class="lab">本日の残りメニュー</div>
       <div class="big tnum">${remaining}<span class="u">/ ${todays.length} 種目</span></div>
-      <div class="row" style="margin-top:12px;gap:8px;">
+      <div class="row" style="margin-top:12px;gap:8px;flex-wrap:wrap">
         <span class="pill acc">完了 ${doneToday.size}</span>
+        ${todayVol?`<span class="pill tnum">今日の総量 ${Math.round(todayVol).toLocaleString()}${U()}</span>`:''}
+        ${todayPR?`<span class="pr">🏆 本日PR達成</span>`:''}
         <span class="pill">${DOW[new Date().getDay()]}曜のルーティン</span>
       </div></div>`;
 
@@ -435,8 +566,8 @@ const app = {
     // rest timer launcher
     h+=`<div class="sec-label">ツール</div>
       <div class="row" style="gap:10px">
-        <button class="btn grow" onclick="app.timerSheet()">⏱ インターバルタイマー</button>
-        <button class="btn grow" onclick="app.warmupSheet()">🔥 ウォームアップ計算</button>
+        <button class="btn grow" onclick="app.timerSheet()">⏱ インターバル</button>
+        <button class="btn grow" onclick="app.warmupSheet()">🔥 ウォームアップ</button>
       </div>`;
     this.el("v-today").innerHTML=h;
   },
@@ -481,18 +612,25 @@ const app = {
   setSort(v){ S.settings.sortBy=v; persist(); this.render(this.tab); },
 
   // ---------------- STATS / ANALYSIS ----------------
+  _statMode:"ex", _calYm:null,
   renderStats(){
+    let h=`<div class="seg">
+      <button class="${this._statMode==='ex'?'on':''}" onclick="app._statMode='ex';app.renderStats()">種目分析</button>
+      <button class="${this._statMode==='cal'?'on':''}" onclick="app._statMode='cal';app.renderStats()">カレンダー</button>
+    </div>`;
+    if(this._statMode==='cal'){ h+=this.calHtml(); this.el("v-stats").innerHTML=h; return; }
+
     const withLogs=S.exercises.filter(e=>exLogs(e.id).length);
     if(!withLogs.length){
-      this.el("v-stats").innerHTML=`<div class="empty"><svg viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="M7 13l3-3 4 4 5-6"/></svg>
+      h+=`<div class="empty"><svg viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="M7 13l3-3 4 4 5-6"/></svg>
         <div class="t">まだデータがありません</div><div class="small">記録すると種目ごとの推移グラフが出ます</div></div>`;
-      return;
+      this.el("v-stats").innerHTML=h; return;
     }
     // overall archive
     const totalSessions=new Set(S.logs.map(l=>l.date)).size;
     const totalVol=S.logs.reduce((s,l)=>s+logVolume(l),0);
     const totalSets=S.logs.reduce((s,l)=>s+l.sets.length,0);
-    let h=`<div class="sec-label">アーカイブ（全期間）</div>
+    h+=`<div class="sec-label">アーカイブ（全期間）</div>
       <div class="statgrid">
         <div class="stat"><div class="n tnum">${totalSessions}</div><div class="l">トレ日数</div></div>
         <div class="stat"><div class="n tnum">${totalSets}</div><div class="l">総セット数</div></div>
@@ -511,6 +649,70 @@ const app = {
     this.renderExChart(cur);
   },
 
+  // ---- monthly calendar ----
+  calHtml(){
+    if(!this._calYm){ const d=new Date(); this._calYm=[d.getFullYear(),d.getMonth()]; }
+    const [y,m]=this._calYm;
+    const first=new Date(y,m,1), off=first.getDay(), dim=new Date(y,m+1,0).getDate();
+    // maps: workout logs & body records per date
+    const wByDate={},bByDate={};
+    S.logs.forEach(l=>{ (wByDate[l.date]=wByDate[l.date]||[]).push(l); });
+    S.body.forEach(b=>{ bByDate[b.date]=true; });
+    const tstr=todayStr();
+    const monthDays=Object.keys(wByDate).filter(d=>d.startsWith(`${y}-${String(m+1).padStart(2,'0')}`)).length;
+    let h=`<div class="card">
+      <div class="between" style="margin-bottom:10px">
+        <button class="btn sm" onclick="app.calShift(-1)">‹</button>
+        <div class="bb tnum">${y}年 ${m+1}月 <span class="pill acc" style="margin-left:6px">${monthDays}日実施</span></div>
+        <button class="btn sm" onclick="app.calShift(1)">›</button>
+      </div>
+      <div class="cal">${DOW.map(d=>`<div class="dowh">${d}</div>`).join("")}`;
+    for(let i=0;i<off;i++) h+=`<div class="day blank"></div>`;
+    for(let d=1;d<=dim;d++){
+      const ds=`${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+      const logs=wByDate[ds]||[]; const hasB=!!bByDate[ds];
+      const cls=["day"]; if(ds===tstr)cls.push("today"); if(logs.length)cls.push("has");
+      const nd=Math.min(3,logs.length);
+      let dots="";
+      for(let k=0;k<nd;k++) dots+=`<i></i>`;
+      if(hasB) dots+=`<i class="b"></i>`;
+      h+=`<div class="${cls.join(' ')}" onclick="app.daySheet('${ds}')">${d}<span class="dots">${dots}</span></div>`;
+    }
+    h+=`</div>
+      <div class="row" style="gap:12px;margin-top:12px">
+        <span class="xs" style="color:var(--muted)"><span class="dot" style="background:var(--accent);width:6px;height:6px"></span> トレ記録</span>
+        <span class="xs" style="color:var(--muted)"><span class="dot" style="background:var(--blue);width:6px;height:6px"></span> 体組成</span>
+      </div></div>`;
+    return h;
+  },
+  calShift(d){ let [y,m]=this._calYm; m+=d; if(m<0){m=11;y--;} if(m>11){m=0;y++;}
+    this._calYm=[y,m]; this.renderStats(); },
+  daySheet(ds){
+    const logs=S.logs.filter(l=>l.date===ds);
+    const body=S.body.find(b=>b.date===ds);
+    const d=new Date(ds+"T00:00");
+    let h=`<h2 class="tnum">${d.getMonth()+1}/${d.getDate()} (${DOW[d.getDay()]})</h2>`;
+    if(!logs.length && !body){ h+=`<div class="empty" style="padding:24px"><div class="t">記録なし</div></div>`; }
+    let dayVol=0;
+    logs.forEach(l=>{
+      const ex=S.exercises.find(e=>e.id===l.exerciseId);
+      const top=logTopSet(l); dayVol+=logVolume(l);
+      h+=`<div class="card" style="padding:12px 14px">
+        <div class="between"><div class="b">${ex?esc(ex.name):"（削除済み種目）"} ${l.pr?'<span class="pr">🏆 PR</span>':''}</div>
+          <div class="xs muted tnum">1RM ${top?top.e:0}${U()}</div></div>
+        <div class="small tnum" style="margin-top:5px;color:var(--muted)">
+          ${l.sets.map(s=>`${s.weight}×${s.reps}`).join(" / ")} ・ ${Math.round(logVolume(l))}${U()}</div>
+        ${l.memo?`<div class="xs" style="margin-top:5px;color:var(--blue)">📝 ${esc(l.memo)}</div>`:''}
+      </div>`;
+    });
+    if(logs.length) h=`${h.split('</h2>')[0]}</h2><div class="row" style="gap:8px;margin-bottom:12px">
+      <span class="pill acc">${logs.length}種目</span><span class="pill tnum">合計 ${Math.round(dayVol).toLocaleString()}${U()}</span></div>`+h.split('</h2>')[1];
+    if(body) h+=`<div class="card" style="padding:12px 14px;border-color:rgba(84,168,240,.3)">
+      <div class="b" style="color:var(--blue)">体組成</div>
+      <div class="small tnum" style="margin-top:4px">${body.weight}${U()}${body.fat?` ・ 体脂肪 ${body.fat}%`:''}</div></div>`;
+    this.openSheet(h);
+  },
+
   _metric:"1rm",
   renderExChart(exId){
     const logs=exLogs(exId).slice().reverse(); // oldest->newest
@@ -525,7 +727,16 @@ const app = {
     const pts=logs.map(l=>({x:l.date,y:md.val(l)}));
     const best=Math.max(...pts.map(p=>p.y),0);
     const cur=pts.length?pts[pts.length-1].y:0;
-    let h=`<div class="seg">
+    // per-exercise totals & PR badges
+    const pr=exPRInfo(exId), tot=exTotals(exId);
+    const marks = metric==="1rm" ? prIndices(logs) : [];
+    let h=`<div class="row" style="gap:7px;flex-wrap:wrap;margin-bottom:12px">
+        ${pr?`<span class="pr">🏆 PR ${pr.e}${U()} <span style="opacity:.75">(${fmtDate(pr.date)})</span></span>`:''}
+        ${pr?`<span class="pill blue">最大 ${pr.maxW}${U()}</span>`:''}
+        <span class="pill tnum">総量 ${Math.round(tot.vol).toLocaleString()}${U()}</span>
+        <span class="pill tnum">${tot.count}回 / ${tot.sets}set</span>
+      </div>
+      <div class="seg">
         ${Object.keys(metricDef).map(k=>`<button class="${k===metric?'on':''}" onclick="app._metric='${k}';app.renderExChart('${exId}')">${metricDef[k].label}</button>`).join("")}
       </div>
       <div class="card">
@@ -533,15 +744,18 @@ const app = {
           <div><div class="xs muted bb">現在</div><div style="font-size:26px;font-weight:800" class="tnum">${cur}<span class="muted" style="font-size:14px"> ${md.unit}</span></div></div>
           <div style="text-align:right"><div class="xs muted bb">ベスト</div><div style="font-size:18px;font-weight:800;color:var(--accent)" class="tnum">${best} ${md.unit}</div></div>
         </div>
-        ${lineChart(pts)}
+        ${lineChart(pts,undefined,marks)}
+        ${metric==="1rm"&&marks.length?`<div class="xs" style="color:var(--muted);margin-top:6px">● 金色の点＝PR更新（推定1RMが過去最高を超えた日）</div>`:''}
       </div>`;
-    // history list
+    // history list (PR computed for old data too)
+    const prSet=new Set(prIndices(logs).map(i=>logs[i].id));
     h+=`<div class="sec-label">履歴</div>`;
     exLogs(exId).slice(0,30).forEach(l=>{
       const top=logTopSet(l);
-      h+=`<div class="card" style="padding:11px 13px">
+      const isPR=l.pr||prSet.has(l.id);
+      h+=`<div class="card" style="padding:11px 13px${isPR?';border-color:rgba(242,201,76,.45)':''}">
         <div class="between">
-          <div class="b tnum">${fmtDate(l.date)}</div>
+          <div class="b tnum">${fmtDate(l.date)} ${isPR?'<span class="pr">🏆 PR</span>':''}</div>
           <div class="small muted tnum">推定1RM ${top?top.e:0}${U()} ・ ${Math.round(logVolume(l))}${U()}</div>
         </div>
         <div class="small tnum" style="margin-top:5px;color:var(--muted)">
@@ -557,10 +771,11 @@ const app = {
   renderVolume(){
     const wv=weeklyVolume();
     let h=`<div class="card"><div class="between" style="margin-bottom:4px">
-        <div class="bb">直近7日のセット数</div><div class="xs muted">目標比</div></div>
-      <div class="xs muted" style="margin-bottom:12px">部位ごとの週間ボリューム。目安（中級者の維持〜成長レンジ）と比較。</div>`;
+        <div class="bb">直近7日のセット数</div>
+        <button class="btn sm ghost" onclick="app.volTargetSheet()">目標を編集</button></div>
+      <div class="xs" style="margin-bottom:12px;color:var(--muted)">部位ごとの週間ボリューム（セット数）を目標と比較。目標は編集できます。</div>`;
     PARTS.filter(p=>p!=="その他"||wv[p].sets>0).forEach(p=>{
-      const v=wv[p]; const tgt=VOL_TARGET[p]||10;
+      const v=wv[p]; const tgt=volTarget(p);
       const pct=Math.min(100,Math.round(v.sets/tgt*100));
       const col = v.sets===0?'var(--muted2)' : v.sets<tgt*0.7?'var(--orange)' : v.sets>tgt*1.4?'var(--red)':'var(--accent)';
       h+=`<div style="margin-bottom:13px">
@@ -609,6 +824,31 @@ const app = {
           <div class="stat"><div class="n tnum">${latest.weight?bmi(latest.weight):'—'}</div><div class="l">BMI (身長${S.settings.height})</div></div>
         </div>
       </div>`;
+      // nutrition targets
+      const nt=nutritionTargets();
+      if(nt){
+        h+=`<div class="card" style="border-color:rgba(198,242,78,.25)">
+          <div class="between" style="margin-bottom:10px">
+            <div class="bb">栄養ターゲット <span class="pill acc" style="margin-left:4px">${nt.goalLabel}</span></div>
+            <button class="btn sm ghost" onclick="app.go('settings')">調整</button>
+          </div>
+          <div class="between" style="align-items:flex-end;margin-bottom:14px">
+            <div><div class="xs muted bb">1日の目標カロリー</div>
+              <div style="font-size:34px;font-weight:800;line-height:1" class="tnum">${nt.cal.toLocaleString()}<span class="muted" style="font-size:15px"> kcal</span></div></div>
+            <div class="xs muted tnum" style="text-align:right">維持 ${nt.tdee.toLocaleString()}kcal<br>体重 ${nt.wKg}kg 基準</div>
+          </div>
+          <div class="statgrid" style="grid-template-columns:1fr 1fr 1fr;gap:8px">
+            <div class="stat" style="padding:11px"><div class="n tnum" style="color:var(--accent)">${nt.protein}<span style="font-size:13px;color:var(--muted)">g</span></div><div class="l">タンパク質</div></div>
+            <div class="stat" style="padding:11px"><div class="n tnum" style="color:var(--orange)">${nt.fat}<span style="font-size:13px;color:var(--muted)">g</span></div><div class="l">脂質</div></div>
+            <div class="stat" style="padding:11px"><div class="n tnum" style="color:var(--blue)">${nt.carbs}<span style="font-size:13px;color:var(--muted)">g</span></div><div class="l">炭水化物</div></div>
+          </div>
+          <div class="xs muted" style="margin-top:10px">Mifflin-St Jeor式 × 活動量で算出。タンパク質は体重×${S.settings.goal==='cut'?'2.2':'2.0'}g。最新体重で自動更新されます。</div>
+        </div>`;
+      }else{
+        h+=`<div class="card"><div class="bb" style="margin-bottom:6px">栄養ターゲット</div>
+          <div class="small muted">設定タブで性別・年齢・活動量を入れると、目標カロリーとPFCを計算します。</div>
+          <button class="btn sm full" style="margin-top:10px" onclick="app.go('settings')">プロフィールを設定</button></div>`;
+      }
       // weight chart
       const pts=sorted.slice().reverse().map(b=>({x:b.date,y:b.weight}));
       h+=`<div class="card"><div class="bb small" style="margin-bottom:8px">体重の推移</div>${lineChart(pts,'var(--blue)')}</div>`;
@@ -649,48 +889,141 @@ const app = {
     });
     h+=`</div>`;
 
-    // routine templates
-    h+=`<div class="sec-label">ルーティン雛形</div>`;
-    const presets=[
-      {name:"PPL（押す/引く/脚）",desc:"週6分割。Push=胸肩腕 / Pull=背中腕 / Legs=脚",split:["Push","Pull","Legs"]},
-      {name:"上半身/下半身",desc:"週4。上半身と下半身を交互に",split:["Upper","Lower"]},
-      {name:"全身（週3）",desc:"初心者向け。1回で全身を回す",split:["Full A","Full B"]},
-      {name:"部位分割（ブロー）",desc:"胸/背/肩/脚/腕を曜日固定",split:["胸","背中","肩","脚","腕"]},
-    ];
-    presets.forEach(p=>{
-      h+=`<div class="card tap"><div class="b">${p.name}</div>
-        <div class="small muted" style="margin:3px 0 8px">${p.desc}</div>
-        <div class="chips" style="margin:0">${p.split.map(s=>`<span class="chip" style="pointer-events:none">${s}</span>`).join("")}</div>
+    // routine templates (user-customizable)
+    h+=`<div class="between" style="margin:18px 2px 8px">
+        <div class="sec-label" style="margin:0">マイ・ルーティン</div>
+        <button class="btn sm acc" onclick="app.editRoutine(null)">＋ 新規</button></div>`;
+    if(!S.routines.length){
+      h+=`<div class="card"><div class="small" style="color:var(--muted)">まだルーティンがありません。「＋新規」から自分の分割を作成できます。</div></div>`;
+    }
+    S.routines.forEach(r=>{
+      h+=`<div class="card tap" onclick="app.editRoutine('${r.id}')"><div class="between">
+          <div class="b">${esc(r.name)}</div>
+          <svg width="18" height="18" viewBox="0 0 24 24" style="stroke:var(--muted2);fill:none;stroke-width:2"><path d="M12 20h9M16.5 3.5a2.1 2.1 0 013 3L7 19l-4 1 1-4 12.5-12.5z"/></svg></div>
+        ${r.desc?`<div class="small" style="margin:3px 0 8px;color:var(--muted)">${esc(r.desc)}</div>`:'<div style="height:8px"></div>'}
+        <div class="chips" style="margin:0">${(r.blocks||[]).map(s=>`<span class="chip" style="pointer-events:none">${esc(s)}</span>`).join("")}</div>
       </div>`;
     });
-    h+=`<div class="warn">雛形は設計の参考用です。実際の曜日割り当ては「種目」タブで各種目に曜日を設定してください。</div>`;
-    h+=`<button class="btn full ghost" onclick="app.go('settings')">⚙ 設定・データ管理へ</button>`;
+    h+=`<div class="warn">ルーティンは設計メモです。実際の曜日割り当ては「種目」タブで各種目に曜日を設定してください。</div>`;
     this.el("v-routine").innerHTML=h;
   },
+
+  // ---- routine editor ----
+  _rt:null,
+  editRoutine(id){
+    const r = id ? JSON.parse(JSON.stringify(S.routines.find(x=>x.id===id))) : {id:null,name:"",desc:"",blocks:[""]};
+    if(!r.blocks||!r.blocks.length) r.blocks=[""];
+    this._rt=r; this.drawRoutine();
+  },
+  drawRoutine(){
+    const r=this._rt;
+    let h=`<h2>${r.id?'ルーティンを編集':'ルーティンを追加'}</h2>
+      <label class="f">名前</label>
+      <input class="field" id="rtName" value="${esc(r.name)}" placeholder="PPL / 上下分割 など">
+      <label class="f">説明（任意）</label>
+      <input class="field" id="rtDesc" value="${esc(r.desc)}" placeholder="週6・押す引く脚 など">
+      <label class="f">ブロック（曜日や分割の単位）</label>`;
+    r.blocks.forEach((b,i)=>{
+      h+=`<div class="row" style="gap:8px;margin-bottom:8px">
+        <input class="field" style="margin:0" value="${esc(b)}" placeholder="例：Push（胸・肩・三頭）" oninput="app._rt.blocks[${i}]=this.value">
+        <button class="btn sm" onclick="app.delBlock(${i})" style="flex-shrink:0">×</button></div>`;
+    });
+    h+=`<button class="btn full ghost sm" style="margin-bottom:14px" onclick="app.addBlock()">＋ ブロックを追加</button>
+      <button class="btn acc full" onclick="app.saveRoutine()">保存</button>`;
+    if(r.id) h+=`<button class="btn full danger ghost" style="margin-top:10px" onclick="app.delRoutine('${r.id}')">削除</button>`;
+    this.openSheet(h);
+  },
+  _grabRt(){ if(this.el("rtName")) this._rt.name=this.el("rtName").value;
+    if(this.el("rtDesc")) this._rt.desc=this.el("rtDesc").value; },
+  addBlock(){ this._grabRt(); this._rt.blocks.push(""); this.drawRoutine(); },
+  delBlock(i){ this._grabRt(); this._rt.blocks.splice(i,1); if(!this._rt.blocks.length)this._rt.blocks=[""]; this.drawRoutine(); },
+  saveRoutine(){ this._grabRt(); const r=this._rt;
+    r.blocks=r.blocks.map(b=>b.trim()).filter(Boolean);
+    if(!r.name.trim()){ toast("名前を入力してください"); return; }
+    if(r.id){ const i=S.routines.findIndex(x=>x.id===r.id); S.routines[i]=r; }
+    else { r.id=uid(); S.routines.push(r); }
+    persist(); this.closeSheet(); this.renderRoutine(); toast(r.id?"保存しました":"追加しました");
+  },
+  delRoutine(id){ if(!confirm("このルーティンを削除しますか？"))return;
+    S.routines=S.routines.filter(x=>x.id!==id); persist(); this.closeSheet(); this.renderRoutine(); toast("削除しました"); },
+
+  // ---- volume target editor ----
+  volTargetSheet(){
+    const vt=S.settings.volTarget;
+    let h=`<h2>週間ボリューム目標</h2>
+      <div class="xs" style="color:var(--muted);margin-bottom:14px">部位ごとの「週あたり目標セット数」。一般に維持で各部位10前後、成長狙いで12〜20が目安です。</div>`;
+    PARTS.forEach(p=>{
+      h+=`<div class="row" style="gap:10px;margin-bottom:10px;align-items:center">
+        <div class="b grow">${p}</div>
+        <input class="field tnum" style="margin:0;width:90px;text-align:center" type="number" inputmode="numeric"
+          value="${vt[p]||10}" onchange="app.setVolTarget('${p}',+this.value)">
+        <span class="small muted">set/週</span></div>`;
+    });
+    h+=`<button class="btn acc full" style="margin-top:6px" onclick="app.closeSheet();app.renderVolume()">完了</button>`;
+    this.openSheet(h);
+  },
+  setVolTarget(p,v){ S.settings.volTarget[p]=Math.max(0,v||0); persist(); },
 
   // ---------------- SETTINGS ----------------
   renderSettings(){
     const s=S.settings;
-    let h=`<div class="sec-label">単位</div>
+    const acts=[[1.2,"ほぼ運動なし"],[1.375,"軽い運動 週1-3"],[1.55,"中程度 週3-5"],[1.725,"激しい 週6-7"],[1.9,"アスリート級"]];
+    let h=`<div class="sec-label">表示テーマ</div>
+      <div class="seg">
+        <button class="${(s.theme||'normal')==='dark'?'on':''}" onclick="app.setTheme('dark')">ダーク</button>
+        <button class="${(s.theme||'normal')==='normal'?'on':''}" onclick="app.setTheme('normal')">ノーマル</button>
+        <button class="${(s.theme||'normal')==='light'?'on':''}" onclick="app.setTheme('light')">ライト</button>
+      </div>
+      <div class="sec-label">単位</div>
       <div class="seg">
         <button class="${s.unit==='kg'?'on':''}" onclick="app.setUnit('kg')">kg</button>
         <button class="${s.unit==='lb'?'on':''}" onclick="app.setUnit('lb')">lb</button>
       </div>
-      <div class="sec-label">身長（BMI計算用）</div>
-      <input class="field tnum" type="number" inputmode="decimal" value="${s.height}" onchange="app.setHeight(this.value)" placeholder="170"> 
+
+      <div class="sec-label">プロフィール（栄養計算用）</div>
+      <div class="card">
+        <label class="f">性別</label>
+        <div class="seg" style="margin-bottom:14px">
+          <button class="${s.sex==='male'?'on':''}" onclick="app.setProf('sex','male')">男性</button>
+          <button class="${s.sex==='female'?'on':''}" onclick="app.setProf('sex','female')">女性</button>
+        </div>
+        <div class="row" style="gap:12px;margin-bottom:6px">
+          <div class="grow"><label class="f">身長 (cm)</label>
+            <input class="field tnum" type="number" inputmode="decimal" value="${s.height}" onchange="app.setHeight(this.value)" placeholder="170"></div>
+          <div class="grow"><label class="f">年齢</label>
+            <input class="field tnum" type="number" inputmode="numeric" value="${s.age||30}" onchange="app.setProf('age',+this.value||30)" placeholder="30"></div>
+        </div>
+        <label class="f">活動量</label>
+        <select class="field" onchange="app.setProf('activity',+this.value)">
+          ${acts.map(a=>`<option value="${a[0]}" ${s.activity==a[0]?'selected':''}>${a[1]}（×${a[0]}）</option>`).join("")}
+        </select>
+        <label class="f">目標</label>
+        <div class="seg" style="margin-bottom:2px">
+          <button class="${s.goal==='bulk'?'on':''}" onclick="app.setProf('goal','bulk')">増量</button>
+          <button class="${s.goal==='maintain'?'on':''}" onclick="app.setProf('goal','maintain')">維持</button>
+          <button class="${s.goal==='cut'?'on':''}" onclick="app.setProf('goal','cut')">減量</button>
+        </div>
+      </div>
+      <div class="xs muted" style="margin:-4px 2px 8px">体重は「体組成」タブの最新記録を使います。栄養ターゲットは体組成タブに表示されます。</div>
+
       <div class="sec-label">インターバル既定（秒）</div>
       <div class="seg">
         ${[60,90,120,180].map(t=>`<button class="${s.rest==t?'on':''}" onclick="app.setRest(${t})">${t}</button>`).join("")}
       </div>
       <div class="sec-label">データ管理</div>
       <button class="btn full" style="margin-bottom:10px" onclick="app.exportData()">⬇ データを書き出す（JSON）</button>
-      <button class="btn full" style="margin-bottom:10px" onclick="app.el('importFile').click()">⬆ データを読み込む</button>
+      <button class="btn full" style="margin-bottom:10px" onclick="app.el('importFile').click()">⬆ バックアップを読み込む（JSON）</button>
       <input type="file" id="importFile" accept="application/json" style="display:none" onchange="app.importData(this.files[0])">
+      <button class="btn full" style="margin-bottom:10px" onclick="app.el('importCSV').click()">📥 他アプリのCSVを取り込む</button>
+      <input type="file" id="importCSV" accept=".csv,text/csv,text/plain" style="display:none" onchange="app.importCSVFile(this.files[0]);this.value=''">
+      <div class="xs" style="color:var(--muted);margin:-4px 2px 10px">Strong / Hevy / FitNotes のエクスポートCSV、または「日付・種目・重量・回数」列を持つ任意のCSVに対応。同じ種目×日付の既存記録はスキップされ、二重取り込みを防ぎます。</div>
       <button class="btn full danger" onclick="app.resetAll()">全データを消去</button>
-      <div class="warn" style="margin-top:14px">${storageOK()?'データはこの端末のブラウザに保存されています（localStorage）。':'⚠ この環境では永続保存が無効のため、リロードで消えます。Cloudflare Pages 等に配置すると保存されます。'}</div>
-      <div class="xs muted" style="text-align:center;margin-top:8px">IRONLOG v0.1 — 単一ファイル / オフライン動作</div>`;
+      <div class="warn" style="margin-top:14px">${storageOK()?'データはこの端末のブラウザに保存されています（localStorage）。バックアップは「書き出す」から。':'⚠ この環境では永続保存が無効のため、リロードで消えます。Cloudflare Pages 等に配置すると保存されます。'}</div>
+      <div class="xs muted" style="text-align:center;margin-top:8px">BULK NOTE v0.4 — PWA / オフライン動作</div>`;
     this.el("v-settings").innerHTML=h;
   },
+  setTheme(t){ this.applyTheme(t); this.renderSettings(); toast("テーマを変更しました"); },
+  setProf(k,v){ S.settings[k]=v; persist(); this.renderSettings(); },
   setUnit(u){ S.settings.unit=u; persist(); this.render(this.tab); toast("単位を"+u+"に変更"); },
   setHeight(v){ S.settings.height=+v||170; persist(); },
   setRest(t){ S.settings.rest=t; persist(); this.renderSettings(); },
@@ -701,46 +1034,51 @@ const app = {
   closeSheet(){ this.el("scrim").classList.remove("on"); this.el("sheet").classList.remove("on");
     if(this._timer){clearInterval(this._timer);this._timer=null;} },
 
-  // ---- exercise editor ----
+  // ---- exercise editor (entry: initialize state, then draw) ----
+  _editEx:null, _editId:null,
   editExercise(id){
+    id = id || null;
     const ex = id ? S.exercises.find(e=>e.id===id) : {id:null,name:"",cat:"free",part:"胸",days:[],priority:2,memo:"",target:10,paused:false};
     this._editEx=JSON.parse(JSON.stringify(ex));
-    const e=this._editEx;
+    this._editId=id;
+    this.drawExerciseEditor();
+  },
+  // re-render without resetting in-progress edits
+  drawExerciseEditor(){
+    const e=this._editEx, id=this._editId;
     let h=`<h2>${id?'種目を編集':'種目を追加'}</h2>
       <label class="f">種目名</label>
       <input class="field" id="exName" value="${esc(e.name)}" placeholder="ベンチプレス">
       <label class="f">カテゴリ</label>
-      <div class="chips">${Object.keys(CATS).map(k=>`<span class="chip ${e.cat===k?'on':''}" onclick="app._editEx.cat='${k}';app.editExercise('${id||''}')">${CATS[k].label}</span>`).join("")}</div>
+      <div class="chips">${Object.keys(CATS).map(k=>`<span class="chip ${e.cat===k?'on':''}" onclick="app.pickEx('cat','${k}')">${CATS[k].label}</span>`).join("")}</div>
       <label class="f">部位</label>
-      <div class="chips">${PARTS.map(p=>`<span class="chip ${e.part===p?'on':''}" onclick="app._editEx.part='${p}';app.editExercise('${id||''}')">${p}</span>`).join("")}</div>
+      <div class="chips">${PARTS.map(p=>`<span class="chip ${e.part===p?'on':''}" onclick="app.pickEx('part','${p}')">${p}</span>`).join("")}</div>
       <label class="f">実施する曜日</label>
-      <div class="chips">${DOW.map((d,i)=>`<span class="chip ${e.days.includes(DOWKEY[i])?'on':''}" onclick="app.toggleDay('${DOWKEY[i]}','${id||''}')">${d}</span>`).join("")}</div>
+      <div class="chips">${DOW.map((d,i)=>`<span class="chip ${e.days.includes(DOWKEY[i])?'on':''}" onclick="app.toggleDay('${DOWKEY[i]}')">${d}</span>`).join("")}</div>
       <label class="f">優先度</label>
-      <div class="seg">${[1,2,3].map(n=>`<button class="${e.priority===n?'on':''}" onclick="app._editEx.priority=${n};app.editExercise('${id||''}')">${'★'.repeat(n)}</button>`).join("")}</div>
+      <div class="seg">${[1,2,3].map(n=>`<button class="${e.priority===n?'on':''}" onclick="app.pickEx('priority',${n})">${'★'.repeat(n)}</button>`).join("")}</div>
       <label class="f">目標レップ（増量判定に使用）</label>
       <input class="field tnum" id="exTarget" type="number" inputmode="numeric" value="${e.target}" placeholder="10">
       <label class="f">メモ（フォーム・マシン設定など）</label>
       <textarea class="field" id="exMemo" placeholder="シート高さ4 / 足幅...">${esc(e.memo)}</textarea>`;
-    // preserve typed values before re-render
     h+=`<div class="row" style="gap:10px;margin-top:4px">`;
     if(id) h+=`<button class="btn" onclick="app.togglePause('${id}')">${e.paused?'休止解除':'休止する'}</button>`;
-    h+=`<button class="btn acc grow" onclick="app.saveExercise('${id||''}')">保存</button></div>`;
+    h+=`<button class="btn acc grow" onclick="app.saveExercise()">保存</button></div>`;
     if(id) h+=`<button class="btn full danger ghost" style="margin-top:10px" onclick="app.delExercise('${id}')">この種目を削除</button>`;
     this.openSheet(h);
-    // restore focus values
-    const n=this.el("exName"); if(n){ n.value=e.name; }
   },
-  _grabEx(){ const e=this._editEx;
+  _grabEx(){ const e=this._editEx; if(!e) return;
     if(this.el("exName")) e.name=this.el("exName").value;
     if(this.el("exTarget")) e.target=+this.el("exTarget").value||10;
     if(this.el("exMemo")) e.memo=this.el("exMemo").value;
   },
-  toggleDay(d,id){ this._grabEx(); const e=this._editEx;
+  pickEx(key,val){ this._grabEx(); this._editEx[key]=val; this.drawExerciseEditor(); },
+  toggleDay(d){ this._grabEx(); const e=this._editEx;
     e.days.includes(d)? e.days=e.days.filter(x=>x!==d) : e.days.push(d);
-    this.editExercise(id||null); },
+    this.drawExerciseEditor(); },
   togglePause(id){ const ex=S.exercises.find(e=>e.id===id); ex.paused=!ex.paused; persist();
     this.closeSheet(); this.render(this.tab); toast(ex.paused?"休止しました":"再開しました"); },
-  saveExercise(id){ this._grabEx(); const e=this._editEx;
+  saveExercise(){ this._grabEx(); const e=this._editEx, id=this._editId;
     if(!e.name.trim()){ toast("種目名を入力してください"); return; }
     if(id){ const i=S.exercises.findIndex(x=>x.id===id); S.exercises[i]={...S.exercises[i],...e}; }
     else { e.id=uid(); S.exercises.push(e); }
@@ -818,36 +1156,71 @@ const app = {
     const idx=S.logs.findIndex(l=>l.exerciseId===r.exId && l.date===r.date);
     const log={id:idx>=0?S.logs[idx].id:uid(),exerciseId:r.exId,date:r.date,
       sets:r.sets.map(s=>({weight:+s.weight||0,reps:+s.reps||0,rpe:s.rpe?+s.rpe:null})),memo:r.memo};
+    // PR detection: best est1RM among OTHER logs of this exercise
+    const prevBest=S.logs.reduce((b,l)=>{
+      if(l.exerciseId!==r.exId || (idx>=0&&l.id===log.id)) return b;
+      const t=logTopSet(l); return t&&t.e>b?t.e:b; },0);
+    const top=logTopSet(log);
+    if(top && top.e>prevBest && prevBest>0){ log.pr=true; }
     if(idx>=0) S.logs[idx]=log; else S.logs.push(log);
     persist(); this.closeSheet();
-    toast("記録しました 💪");
+    toast(log.pr?`🏆 PR更新！ 推定1RM ${top.e}${U()}`:"記録しました 💪");
     // offer rest timer
     if(this.tab==="today") this.renderToday(); else this.render(this.tab);
     setTimeout(()=>this.timerSheet(),350);
   },
 
   // ---- interval timer ----
-  _timer:null,_tleft:0,
+  _timer:null,_tleft:0,_tbase:0,_presetEdit:false,
   timerSheet(){
-    this._tleft=S.settings.rest;
-    const h=`<h2>インターバルタイマー</h2>
+    this._tleft=S.settings.rest; this._tbase=S.settings.rest; this._presetEdit=false;
+    this.drawTimer();
+  },
+  drawTimer(){
+    const presets=S.settings.presets||[60,90,120,180];
+    const chips=presets.map(t=>`<span class="chip ${this._tbase==t?'on':''}" onclick="app.setTimer(${t})">${fmtSec(t)}${this._presetEdit?` <b onclick="event.stopPropagation();app.delPreset(${t})" style="color:var(--red);margin-left:4px">×</b>`:''}</span>`).join("");
+    const h=`<h2>インターバル</h2>
       <div class="card timer-card">
         <div class="timer-display tnum" id="tDisp">${fmtSec(this._tleft)}</div>
-        <div class="row" style="justify-content:center;gap:8px;margin:14px 0">
-          ${[30,60,90,120].map(t=>`<button class="btn sm" onclick="app.setTimer(${t})">${t}s</button>`).join("")}
+        <div class="row" style="justify-content:center;gap:7px;margin:10px 0 4px">
+          <button class="btn sm" onclick="app.adjTimer(-30)">−30</button>
+          <button class="btn sm" onclick="app.adjTimer(-10)">−10</button>
+          <button class="btn sm" onclick="app.adjTimer(10)">+10</button>
+          <button class="btn sm" onclick="app.adjTimer(30)">+30</button>
         </div>
-        <div class="row" style="gap:10px">
+        <div class="row" style="gap:8px;justify-content:center;margin:10px 0">
+          <input class="field tnum" id="tMin" type="number" inputmode="numeric" style="width:64px;text-align:center;margin:0" placeholder="分" value="${Math.floor(this._tbase/60)}">
+          <span class="bb">:</span>
+          <input class="field tnum" id="tSec" type="number" inputmode="numeric" style="width:64px;text-align:center;margin:0" placeholder="秒" value="${this._tbase%60}">
+          <button class="btn sm" onclick="app.setTimerFromInput()">設定</button>
+        </div>
+        <div class="row" style="gap:10px;margin-top:6px">
           <button class="btn acc grow" id="tStart" onclick="app.toggleTimer()">スタート</button>
           <button class="btn" onclick="app.resetTimer()">リセット</button>
         </div>
-        <div class="xs muted" style="margin-top:12px">0になると通知音とバイブでお知らせします</div>
-      </div>`;
+      </div>
+      <div class="between" style="margin:2px 2px 8px">
+        <div class="sec-label" style="margin:0">クイック設定</div>
+        <button class="btn sm ghost" onclick="app.togglePresetEdit()">${this._presetEdit?'完了':'編集'}</button>
+      </div>
+      <div class="chips">${chips}
+        <span class="chip" style="border-style:dashed" onclick="app.addPreset()">＋ 現在値を登録</span></div>
+      <div class="xs" style="color:var(--muted)">0になると通知音とバイブでお知らせします。±ボタン・直接入力・プリセットのどれでもOK。</div>`;
     this.openSheet(h);
   },
-  setTimer(t){ this._tleft=t; S.settings.rest=t; persist(); if(this.el("tDisp"))this.el("tDisp").textContent=fmtSec(t); },
+  setTimer(t){ this._tleft=t; this._tbase=t; S.settings.rest=t; persist(); this.drawTimer(); },
+  adjTimer(d){ this._tbase=Math.max(5,this._tbase+d); this._tleft=this._tbase; S.settings.rest=this._tbase; persist();
+    if(this.el("tDisp")) this.el("tDisp").textContent=fmtSec(this._tleft); this.drawTimer(); },
+  setTimerFromInput(){ const m=+this.el("tMin").value||0, s=+this.el("tSec").value||0;
+    const t=Math.max(5,m*60+s); this.setTimer(t); toast("設定: "+fmtSec(t)); },
+  togglePresetEdit(){ this._presetEdit=!this._presetEdit; this.drawTimer(); },
+  addPreset(){ const p=S.settings.presets||[]; if(!p.includes(this._tbase)){ p.push(this._tbase); p.sort((a,b)=>a-b);
+    S.settings.presets=p; persist(); toast(fmtSec(this._tbase)+" を登録"); } this.drawTimer(); },
+  delPreset(t){ S.settings.presets=(S.settings.presets||[]).filter(x=>x!==t); persist(); this.drawTimer(); },
   toggleTimer(){
     if(this._timer){ clearInterval(this._timer); this._timer=null; this.el("tStart").textContent="再開"; return; }
-    this.el("tStart").textContent="一時停止";
+    if(this._tleft<=0){ this._tleft=this._tbase; }
+    this.el("tStart").textContent="一時停止"; if(this.el("tDisp"))this.el("tDisp").style.color="";
     this._timer=setInterval(()=>{
       this._tleft--; if(this.el("tDisp")) this.el("tDisp").textContent=fmtSec(Math.max(0,this._tleft));
       if(this._tleft<=0){ clearInterval(this._timer); this._timer=null; beep();
@@ -858,33 +1231,66 @@ const app = {
     },1000);
   },
   resetTimer(){ if(this._timer){clearInterval(this._timer);this._timer=null;}
-    this._tleft=S.settings.rest; if(this.el("tDisp")){this.el("tDisp").textContent=fmtSec(this._tleft);this.el("tDisp").style.color="";}
+    this._tleft=this._tbase; if(this.el("tDisp")){this.el("tDisp").textContent=fmtSec(this._tleft);this.el("tDisp").style.color="";}
     if(this.el("tStart"))this.el("tStart").textContent="スタート"; },
 
-  // ---- warmup calculator ----
-  warmupSheet(){
-    this._warmW=60;
-    this.drawWarmup();
-  },
+  // ---- warmup calculator (editable) ----
+  _warmW:60,_warmEdit:false,
+  warmupSheet(){ this._warmW=60; this._warmEdit=false; this.drawWarmup(); },
   drawWarmup(){
-    const w=this._warmW;
-    const scheme=[{p:0,r:10,l:"バー/空荷"},{p:.4,r:8},{p:.6,r:5},{p:.8,r:3},{p:.9,r:1},{p:1,r:"本番",l:"メイン"}];
+    const w=this._warmW; const wu=S.settings.warmup;
     const round=(x)=> U()==="kg"? Math.round(x/2.5)*2.5 : Math.round(x/5)*5;
-    let h=`<h2>ウォームアップ計算</h2>
+    let h=`<h2>ウォームアップ</h2>
       <label class="f">メインの重量（${U()}）</label>
-      <input class="field tnum" type="number" inputmode="decimal" value="${w}" oninput="app._warmW=+this.value||0;app.drawWarmup()">
-      <div class="card" style="padding:6px 0">`;
-    scheme.forEach((s,i)=>{
-      const ww=s.p===1?w:round(w*s.p);
+      <input class="field tnum" type="number" inputmode="decimal" value="${w}" oninput="app._warmW=+this.value||0;app.drawWarmupRows()">`;
+    h+=`<div class="between" style="margin:2px 2px 8px">
+        <div class="sec-label" style="margin:0">セット構成</div>
+        <button class="btn sm ghost" onclick="app.toggleWarmEdit()">${this._warmEdit?'完了':'編集'}</button></div>`;
+    if(this._warmEdit){
+      h+=`<div class="card" style="padding:12px">
+        <div class="row" style="gap:8px;margin-bottom:10px">
+          <div class="grow"><label class="f">バー重量(${U()})</label>
+            <input class="field tnum" style="margin:0" type="number" inputmode="decimal" value="${wu.bar}" onchange="app.setWarm('bar',+this.value)"></div>
+          <div class="grow"><label class="f">バーの回数</label>
+            <input class="field tnum" style="margin:0" type="number" inputmode="numeric" value="${wu.barReps}" onchange="app.setWarm('barReps',+this.value)"></div>
+        </div>
+        <label class="f">ウォームアップ段階（% × 回数）</label>
+        <div class="colhead" style="grid-template-columns:1fr 1fr 34px">% <span>回数</span><span></span></div>`;
+      wu.steps.forEach((s,i)=>{
+        h+=`<div class="setrow" style="grid-template-columns:1fr 1fr 34px">
+          <input type="number" inputmode="numeric" value="${s.p}" onchange="app.setStep(${i},'p',+this.value)">
+          <input type="number" inputmode="numeric" value="${s.r}" onchange="app.setStep(${i},'r',+this.value)">
+          <div class="del" onclick="app.delStep(${i})">×</div></div>`;
+      });
+      h+=`<button class="btn full ghost sm" style="margin-top:6px" onclick="app.addStep()">＋ 段階を追加</button></div>`;
+    }
+    h+=`<div id="warmRows"></div>
+      <div class="xs" style="color:var(--muted)">バーは固定重量、各段階はメイン重量に対する%。${U()==='kg'?'2.5':'5'}${U()}単位に丸めます。</div>`;
+    this.openSheet(h);
+    this.drawWarmupRows();
+  },
+  drawWarmupRows(){
+    const w=this._warmW, wu=S.settings.warmup;
+    const round=(x)=> U()==="kg"? Math.round(x/2.5)*2.5 : Math.round(x/5)*5;
+    const rows=[{w:wu.bar,r:wu.barReps,l:"バー",p:null}]
+      .concat(wu.steps.map(s=>({w:round(w*s.p/100),r:s.r,p:s.p})))
+      .concat([{w:w,r:"本番",l:"メイン",p:100}]);
+    let h=`<div class="card" style="padding:6px 0">`;
+    rows.forEach((s,i)=>{
       h+=`<div class="row" style="padding:11px 14px;${i?'border-top:1px solid var(--border)':''}">
-        <div class="grow"><span class="b tnum">${ww}${U()}</span> ${s.l?`<span class="xs muted">${s.l}</span>`:''}</div>
+        <div class="grow"><span class="b tnum">${s.w}${U()}</span> ${s.l?`<span class="xs muted">${s.l}</span>`:''}</div>
         <div class="tnum muted small">× ${s.r}</div>
-        <div class="pill" style="margin-left:10px">${Math.round(s.p*100)}%</div>
+        <div class="pill" style="margin-left:10px">${s.p===null?'bar':s.p+'%'}</div>
       </div>`;
     });
-    h+=`</div><div class="xs muted">一般的な漸増ウォームアップ。コンパウンド種目向けの目安です。</div>`;
-    this.openSheet(h);
+    h+=`</div>`;
+    if(this.el("warmRows")) this.el("warmRows").innerHTML=h;
   },
+  toggleWarmEdit(){ this._warmEdit=!this._warmEdit; this.drawWarmup(); },
+  setWarm(k,v){ S.settings.warmup[k]=v; persist(); this.drawWarmupRows(); },
+  setStep(i,k,v){ S.settings.warmup.steps[i][k]=v; persist(); this.drawWarmupRows(); },
+  addStep(){ S.settings.warmup.steps.push({p:50,r:5}); persist(); this.drawWarmup(); },
+  delStep(i){ S.settings.warmup.steps.splice(i,1); persist(); this.drawWarmup(); },
 
   // ---- body editor ----
   editBody(){
@@ -914,7 +1320,7 @@ const app = {
   exportData(){
     const blob=new Blob([JSON.stringify({v:1,exercises:S.exercises,logs:S.logs,body:S.body,routines:S.routines,settings:S.settings},null,2)],{type:"application/json"});
     const url=URL.createObjectURL(blob); const a=document.createElement("a");
-    a.href=url; a.download="ironlog-backup-"+todayStr()+".json"; a.click(); URL.revokeObjectURL(url);
+    a.href=url; a.download="bulknote-backup-"+todayStr()+".json"; a.click(); URL.revokeObjectURL(url);
     toast("書き出しました");
   },
   importData(file){ if(!file)return; const fr=new FileReader();
@@ -926,14 +1332,106 @@ const app = {
     fr.readAsText(file);
   },
   resetAll(){ if(!confirm("すべてのデータを消去します。元に戻せません。よろしいですか？"))return;
-    S={exercises:[],logs:[],body:[],routines:[],settings:{unit:"kg",height:170,rest:90,sortBy:"priority"}};
-    persist(); this.render(this.tab); toast("消去しました"); },
+    const keepTheme=S.settings.theme||"normal";
+    S={exercises:[],logs:[],body:[],routines:[],settings:{unit:"kg",height:170,rest:90,sortBy:"priority",theme:keepTheme,sex:"male",age:30,activity:1.55,goal:"bulk",volTarget:{胸:12,背中:14,肩:12,腕:8,脚:14,腹:10,全身:10,その他:8},warmup:{bar:20,barReps:10,steps:[{p:40,r:8},{p:60,r:5},{p:80,r:3},{p:90,r:1}]},presets:[60,90,120,180]}};
+    persist(); this.applyTheme(keepTheme); this.render(this.tab); toast("消去しました"); },
+
+  // ---- CSV import (Strong / Hevy / FitNotes / generic) ----
+  importCSVFile(file){ if(!file)return; const fr=new FileReader();
+    fr.onload=()=>{ try{ this.importCSVText(String(fr.result)); }
+      catch(e){ toast("CSVを読めませんでした"); } };
+    fr.readAsText(file);
+  },
+  importCSVText(text){
+    const rows=parseCSV(text).filter(r=>r.length>1 || (r[0]&&r[0].trim()));
+    if(rows.length<2){ toast("データ行がありません"); return; }
+    const H=rows[0].map(h=>h.trim().toLowerCase());
+    const find=(...pats)=>H.findIndex(h=>pats.some(p=>h.includes(p)));
+    const ci={
+      date: find("date","日付","start_time","実施日"),
+      ex:   find("exercise","種目","トレーニング名"),
+      w:    find("weight","重量","kg (","(kg"),
+      r:    find("reps","rep","回数"),
+    };
+    if(ci.date<0||ci.ex<0||ci.w<0||ci.r<0){
+      alert("列を認識できませんでした。\nCSVの1行目（ヘッダー）に「日付・種目・重量・回数」に相当する列名が必要です。\n対応例: Date / Exercise Name / Weight / Reps（Strong・Hevy・FitNotes形式、または日本語ヘッダー）");
+      return;
+    }
+    // unit in CSV: header hints
+    const wHead=H[ci.w];
+    const csvUnit = wHead.includes("kg")?"kg" : (wHead.includes("lb")?"lb" : U());
+    const conv = csvUnit===U() ? (x=>x) : (csvUnit==="kg" ? (x=>x*2.20462) : (x=>x/2.20462));
+
+    // group rows -> exercise+date -> sets
+    const groups={}; let skipped=0;
+    for(let i=1;i<rows.length;i++){
+      const row=rows[i]; if(!row[ci.ex])continue;
+      const name=String(row[ci.ex]).trim(); if(!name){skipped++;continue;}
+      const ds=normDate(String(row[ci.date]||"").trim());
+      const w=parseFloat(row[ci.w]), r=parseInt(row[ci.r]);
+      if(!ds || (isNaN(w)&&isNaN(r))){skipped++;continue;}
+      const key=name+"|"+ds;
+      (groups[key]=groups[key]||{name,date:ds,sets:[]}).sets.push({
+        weight:isNaN(w)?0:Math.round(conv(w)*100)/100, reps:isNaN(r)?0:r, rpe:null});
+    }
+    const keys=Object.keys(groups);
+    if(!keys.length){ toast("取り込める行がありませんでした"); return; }
+
+    // plan: which exercises are new, which logs collide with existing
+    const nameMap={}; S.exercises.forEach(e=>nameMap[e.name]=e.id);
+    const newNames=[...new Set(keys.map(k=>groups[k].name))].filter(n=>!nameMap[n]);
+    let dup=0; keys.forEach(k=>{ const g=groups[k];
+      const id=nameMap[g.name];
+      if(id && S.logs.some(l=>l.exerciseId===id && l.date===g.date)) dup++; });
+    const days=new Set(keys.map(k=>groups[k].date)).size;
+    if(!confirm(`CSVを解析しました（単位:${csvUnit}）\n\n・記録 ${keys.length}件（${days}日分）\n・新規種目 ${newNames.length}件\n・既存と重複 ${dup}件 → スキップ\n・読めなかった行 ${skipped}\n\n取り込みますか？`)) return;
+
+    // apply
+    newNames.forEach(n=>{ const e={id:uid(),name:n,cat:"free",part:"その他",days:[],priority:2,memo:"",target:10,paused:false};
+      S.exercises.push(e); nameMap[n]=e.id; });
+    let added=0;
+    keys.forEach(k=>{ const g=groups[k]; const id=nameMap[g.name];
+      if(S.logs.some(l=>l.exerciseId===id && l.date===g.date)) return; // skip dup
+      S.logs.push({id:uid(),exerciseId:id,date:g.date,sets:g.sets,memo:""}); added++; });
+    persist(); this.render(this.tab);
+    toast(`${added}件の記録を取り込みました`);
+    if(newNames.length) setTimeout(()=>alert(`新規種目は部位「その他」で追加しました。\n「種目」タブから部位・曜日を設定してください：\n\n${newNames.slice(0,15).join("\n")}${newNames.length>15?`\n…他${newNames.length-15}件`:''}`),400);
+  },
 };
 
 // ============================================================
 //  helpers: escape, toast, beep, time, chart
 // ============================================================
 function esc(s){ return (s||"").replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+
+// RFC4180-ish CSV parser (quotes, embedded commas/newlines)
+function parseCSV(text){
+  if(text.charCodeAt(0)===0xFEFF) text=text.slice(1); // BOM
+  const rows=[]; let row=[],cur="",q=false;
+  for(let i=0;i<text.length;i++){ const c=text[i];
+    if(q){ if(c==='"'){ if(text[i+1]==='"'){cur+='"';i++;} else q=false; } else cur+=c; }
+    else if(c==='"') q=true;
+    else if(c===',' ){ row.push(cur); cur=""; }
+    else if(c==='\n'||c==='\r'){ if(c==='\r'&&text[i+1]==='\n') i++;
+      row.push(cur); cur="";
+      if(row.length>1 || row[0]!=="") rows.push(row);
+      row=[]; }
+    else cur+=c;
+  }
+  if(cur!==""||row.length){ row.push(cur); rows.push(row); }
+  return rows;
+}
+// normalize various date strings to YYYY-MM-DD
+function normDate(s){
+  if(!s) return null;
+  let m=s.match(/^(\d{4})[-\/\.](\d{1,2})[-\/\.](\d{1,2})/); // 2026-07-02, 2026/7/2
+  if(m) return `${m[1]}-${m[2].padStart(2,'0')}-${m[3].padStart(2,'0')}`;
+  m=s.match(/^(\d{1,2})[-\/\.](\d{1,2})[-\/\.](\d{4})/);      // 02/07/2026 (day-firstとして扱う)
+  if(m) return `${m[3]}-${m[2].padStart(2,'0')}-${m[1].padStart(2,'0')}`;
+  const d=new Date(s);                                          // "05 Jan 2026" などはDateに委ねる
+  if(!isNaN(d)) return d.toISOString().slice(0,10);
+  return null;
+}
 function fmtSec(s){ s=Math.max(0,s|0); return Math.floor(s/60)+":"+String(s%60).padStart(2,"0"); }
 function storageOK(){ try{ localStorage.setItem("__t","1"); localStorage.removeItem("__t"); return true; }catch(e){ return false; } }
 
@@ -952,8 +1450,8 @@ function beep(){ try{ _ac=_ac||new (window.AudioContext||window.webkitAudioConte
 }catch(e){} }
 
 // SVG line chart. pts:[{x:dateStr,y:num}]
-function lineChart(pts,color){
-  color=color||"var(--accent)";
+function lineChart(pts,color,marks){
+  color=color||"var(--accent)"; marks=marks||[];
   const W=300,H=120,pad=8,padB=18;
   if(!pts.length) return `<div class="small muted" style="text-align:center;padding:20px">データなし</div>`;
   if(pts.length===1){ const p=pts[0];
@@ -970,6 +1468,9 @@ function lineChart(pts,color){
   const gid="g"+Math.random().toString(36).slice(2,7);
   let dots="";
   pts.forEach((p,i)=>{ if(i===pts.length-1) dots+=`<circle cx="${X(i).toFixed(1)}" cy="${Y(p.y).toFixed(1)}" r="3.5" fill="${color}"/>`; });
+  // PR marks (gold)
+  marks.forEach(i=>{ if(i<0||i>=pts.length) return;
+    dots+=`<circle cx="${X(i).toFixed(1)}" cy="${Y(pts[i].y).toFixed(1)}" r="4.5" fill="#F2C94C" stroke="#B8860B" stroke-width="1"/>`; });
   // x labels: first & last
   const lab=`<text x="${X(0)}" y="${H-4}" fill="var(--muted)" font-size="9" text-anchor="start">${fmtDate(pts[0].x)}</text>
     <text x="${X(pts.length-1)}" y="${H-4}" fill="var(--muted)" font-size="9" text-anchor="end">${fmtDate(pts[pts.length-1].x)}</text>`;
@@ -982,6 +1483,11 @@ function lineChart(pts,color){
 }
 
 app.init();
+
+// PWA: register service worker (https/localhost only; no-op elsewhere)
+if ("serviceWorker" in navigator && /^https?:/.test(location.protocol)) {
+  navigator.serviceWorker.register("sw.js").catch(()=>{});
+}
 </script>
 </body>
 </html>
